@@ -3,6 +3,9 @@ import java.awt.*;
 
 public class Client extends JFrame {
 
+    private static final int DEFAULT_PORT = 2000;
+    private static final String DEFAULT_SERVER = "127.0.0.1";
+
     public static void main(String[] args) {
 
         new Client(args);

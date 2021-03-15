@@ -1,3 +1,4 @@
+import javax.naming.ldap.Control;
 import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
@@ -19,6 +20,8 @@ public class GameField extends JPanel {
 
     private static Boolean player1 = false;
     private static Boolean ready = false;
+
+    private Controls controls;
 
     public GameField() {
 
@@ -142,7 +145,7 @@ public class GameField extends JPanel {
             setPlayer1(Boolean.parseBoolean(data[0]));
             setReady(true);
         }
-        else if (data[0].equals("b")){
+        else if (data[0].equals("b")) {
             setBall_x(Integer.parseInt(data[1]));
             setBall_y(Integer.parseInt(data[2]));
         }
@@ -229,5 +232,13 @@ public class GameField extends JPanel {
             s = "p2," + Integer.toString(getP2_position());
         }
         return s;
+    }
+
+    public void setControls(Controls controls) {
+        this.controls = controls;
+    }
+
+    public void callRepaint() {
+        this.controls.callRepaint();
     }
 }
