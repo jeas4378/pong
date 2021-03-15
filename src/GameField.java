@@ -16,7 +16,8 @@ public class GameField extends JPanel {
 
     private void default_lines() {
 
-        Boolean block = true;
+        Boolean block = false;
+        Boolean middle = false;
 
         for (int y = 0; y < 501; y++) {
             for (int x = 0; x < 1001; x++) {
@@ -28,12 +29,23 @@ public class GameField extends JPanel {
                     lines.put(p,Color.WHITE);
                 }
 
-                if ((block) && (y > 20) && (y < 460)) {
-                    block = false;
-                }
-                else if ((y >= 460) && !(block)) {
+                if ((y < 20) || (y > 460)) {
                     block = true;
                 }
+                else if ((x >= 390) && (x <= 410)) {
+                    if (middle) {
+                        block = true;
+                    }
+                    else {
+                        block = false;
+                    }
+                }
+                else {
+                    block = false;
+                }
+            }
+            if ((y-10) % 20 == 0) {
+                middle = middle ? false : true;
             }
 
         }
