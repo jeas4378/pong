@@ -20,18 +20,26 @@ public class Server {
 
         try (ServerSocket server = new ServerSocket(DEFAULT_PORT)) {
 
+            System.out.println("Väntar på anslutning");
+
             Socket connection1 = server.accept();
             ServerConnection p1 = new ServerConnection(connection1);
             Thread t1 = new Thread(p1);
             t1.start();
+
+            System.out.println("Spelare 1 ansluten");
 
             Socket connection2 = server.accept();
             ServerConnection p2 = new ServerConnection(connection2);
             Thread t2 = new Thread(p2);
             t2.start();
 
+            System.out.println("Spelare 2 ansluten");
+
             p1.send("true");
             p2.send("false");
+
+            System.out.print("Server redo");
 
             while(true) {
                 Thread.sleep(25);
