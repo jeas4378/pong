@@ -11,6 +11,7 @@ public class GameField extends JPanel {
     private HashMap<Point,Color> p2 = new HashMap<Point,Color>();
     private int p1_position = 0;
     private int p2_position = 0;
+    private int moveSpeed = 10;
 
     public GameField() {
 
@@ -88,7 +89,7 @@ public class GameField extends JPanel {
             Color p1_col = (Color)pair_p1.getValue();
 
             g.setColor(p1_col);
-            g.fillRect(p1_pos.x + getP1_position(),p1_pos.y,1,1);
+            g.fillRect(p1_pos.x,p1_pos.y + getP1_position(),1,1);
         }
 
         Iterator player2 = p2.entrySet().iterator();
@@ -99,16 +100,24 @@ public class GameField extends JPanel {
             Color p2_col = (Color)pair_p2.getValue();
 
             g.setColor(p2_col);
-            g.fillRect(p2_pos.x + getP2_position(),p2_pos.y,1,1);
+            g.fillRect(p2_pos.x,p2_pos.y  + getP2_position(),1,1);
         }
     }
 
-    public void setP1(int pos) {
-        this.p1_position = pos;
+    public void incP1() {
+        this.p1_position += moveSpeed;
     }
 
-    public void setP2(int pos) {
-        this.p2_position = pos;
+    public void incP2() {
+        this.p2_position += moveSpeed;
+    }
+
+    public void decP1() {
+        this.p1_position -= moveSpeed;
+    }
+
+    public void decP2() {
+        this.p2_position -= moveSpeed;
     }
 
     public int getP1_position() {

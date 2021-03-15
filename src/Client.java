@@ -14,6 +14,8 @@ public class Client extends JFrame {
         GameField gamefield = new GameField();
         Controls controls = new Controls();
 
+        controls.connectGameField(gamefield);
+
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new GridLayout(2,1));
 
