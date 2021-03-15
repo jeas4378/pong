@@ -67,13 +67,13 @@ public class Server {
         String[] data = s.split(",");
         if (data[0].equals("p1")){
             setP1_position(Integer.parseInt(data[1]));
-            this.p2.send(sendP1());
+            p2.send(this.sendP1());
         }
         else {
             System.out.println("Första värdet är okej");
             setP2_position(Integer.parseInt(data[1]));
             System.out.println("Har uppdaterat värdet" + Integer.toString(getP2_position()));
-            this.p1.send(sendP2());
+            p1.send("p2,"+Integer.toString(getP2_position()));
         }
 
     }
@@ -105,17 +105,17 @@ public class Server {
 
     public static int getBall_y(){return ball_y; }
 
-    public static String sendP1() {
+    public String sendP1() {
         String s = "p1," + Integer.toString(getP1_position());
         return s;
     }
 
-    public static String sendP2() {
+    public String sendP2() {
         String s = "p2," + Integer.toString(getP2_position());
         return s;
     }
 
-    public static String sendBall() {
+    public String sendBall() {
         String s = "b,"+Integer.toString(getBall_x()) + ", " + Integer.toString(getBall_y());
         return s;
     }
