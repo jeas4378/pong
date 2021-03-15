@@ -9,17 +9,20 @@ public class GameField extends JPanel {
     private HashMap<Point,Color> lines = new HashMap<Point,Color>();
     private HashMap<Point,Color> p1 = new HashMap<Point,Color>();
     private HashMap<Point,Color> p2 = new HashMap<Point,Color>();
+    private HashMap<Point,Color> ball = new HashMap<Point,Color>();
     private int p1_position = 0;
     private int p2_position = 0;
     private int moveSpeed = 10;
+    private int ball_x = 0;
+    private int ball_y = 0;
 
     public GameField() {
 
-        default_lines();
+        createGraphics();
 
     }
 
-    private void default_lines() {
+    private void createGraphics() {
 
         Boolean block = false;
         Boolean middle = false;
@@ -35,12 +38,18 @@ public class GameField extends JPanel {
                 else {
                     lines.put(p,Color.WHITE);
                 }
+
                 if ((x > 29) && (x < 40) && (y > height_min) && (y < height_max)) {
                     p1.put(p, Color.BLACK);
                 }
                 if ((x > 764) && (x < 776) && (y > height_min) && (y < height_max)) {
                     p2.put(p, Color.BLACK);
                 }
+
+                if ((x > 390) && (x < 410) && (y > 230) && (y < 250)) {
+                    ball.put(p, Color.GRAY);
+                }
+
                 if ((y < 20) || (y > 460)) {
                     block = true;
                 }
@@ -102,6 +111,17 @@ public class GameField extends JPanel {
             g.setColor(p2_col);
             g.fillRect(p2_pos.x,p2_pos.y  + getP2_position(),1,1);
         }
+
+        Iterator ball_iterator = ball.entrySet().iterator();
+
+        while(ball_iterator.hasNext()) {
+            Map.Entry pair_ball = (Map.Entry) ball_iterator.next();
+            Point ball_pos = (Point)pair_ball.getKey();
+            Color ball_col = (Color)pair_ball.getValue();
+
+            g.setColor(ball_col);
+            g.fillRect(ball_pos.x + getBall_x(),ball_pos.y + getBall_y() ,1,1);
+        }
     }
 
     public void incP1() {
@@ -134,5 +154,13 @@ public class GameField extends JPanel {
 
     public int getP2_position(){
         return this.p2_position;
+    }
+
+    public int getBall_x() {
+        return ball_x;
+    }
+
+    public int getBall_y() {
+        return ball_y;
     }
 }
