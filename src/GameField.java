@@ -77,7 +77,7 @@ public class GameField extends JPanel {
 
     }
 
-    public void paintComponent(Graphics g) {
+    public synchronized void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         //Renderar spelplanen.
