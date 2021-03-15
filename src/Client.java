@@ -12,11 +12,13 @@ public class Client extends JFrame {
     public Client(String[] args) {
 
         GameField gamefield = new GameField();
+        Controls controls = new Controls();
 
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setLayout(new GridLayout(2,1));
 
         this.add(gamefield, BorderLayout.CENTER);
+        this.add(controls, BorderLayout.CENTER);
 
         this.setMinimumSize(new Dimension(800,1000));
         this.pack();
