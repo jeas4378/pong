@@ -12,8 +12,8 @@ public class Server {
 
     private static int ball_x_vector = 0;
     private static int ball_y_vector = 0;
-    private ServerConnection p1;
-    private ServerConnection p2;
+    private static ServerConnection p1;
+    private static ServerConnection p2;
 
     private static final int DEFAULT_PORT = 2000;
 
@@ -34,9 +34,16 @@ public class Server {
             p1.send("true");
             p2.send("false");
 
+            while(true) {
+                Thread.sleep(25);
+            }
+
         }
         catch (IOException io) {
             System.err.println(io);
+        }
+        catch (InterruptedException ie) {
+            System.err.println(ie);
         }
 
     }
@@ -46,9 +53,11 @@ public class Server {
         String[] data = s.split(",");
         if (data[0].equals("p1")){
             setP1_position(Integer.parseInt(data[1]));
+            p2.send(sendP1());
         }
         else {
             setP2_position(Integer.parseInt(data[1]));
+            p1.send(sendP2());
         }
 
     }
@@ -60,11 +69,11 @@ public class Server {
         p2_position = pos;
     }
 
-    public int getP1_position(){
+    public static int getP1_position(){
         return p1_position;
     }
 
-    public int getP2_position(){
+    public static int getP2_position(){
         return p2_position;
     }
 
@@ -74,23 +83,23 @@ public class Server {
         ball_y = pos;
     }
 
-    public int getBall_x(){
+    public static int getBall_x(){
         return ball_x;
     }
 
-    public int getBall_y(){return ball_y; }
+    public static int getBall_y(){return ball_y; }
 
-    public String sendP1() {
+    public static String sendP1() {
         String s = "p1, " + Integer.toString(getP1_position());
         return s;
     }
 
-    public String sendP2() {
+    public static String sendP2() {
         String s = "p2, " + Integer.toString(getP2_position());
         return s;
     }
 
-    public String sendBall() {
+    public static String sendBall() {
         String s = "b, "+Integer.toString(getBall_x()) + ", " + Integer.toString(getBall_y());
         return s;
     }
