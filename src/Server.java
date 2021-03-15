@@ -89,17 +89,17 @@ public class Server {
     public static int getBall_y(){return ball_y; }
 
     public static String sendP1() {
-        String s = "p1, " + Integer.toString(getP1_position());
+        String s = "p1," + Integer.toString(getP1_position());
         return s;
     }
 
     public static String sendP2() {
-        String s = "p2, " + Integer.toString(getP2_position());
+        String s = "p2," + Integer.toString(getP2_position());
         return s;
     }
 
     public static String sendBall() {
-        String s = "b, "+Integer.toString(getBall_x()) + ", " + Integer.toString(getBall_y());
+        String s = "b,"+Integer.toString(getBall_x()) + ", " + Integer.toString(getBall_y());
         return s;
     }
 

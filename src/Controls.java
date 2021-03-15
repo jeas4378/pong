@@ -6,8 +6,6 @@ import java.awt.event.ActionListener;
 public class Controls extends JPanel implements ActionListener {
 
     private GameField gameField;
-    private Boolean player1 = false;
-    private Boolean ready = false;
 
     private JButton up = new JButton("UPP");
     private JButton down = new JButton("NED");
@@ -27,16 +25,16 @@ public class Controls extends JPanel implements ActionListener {
 
         AbstractButton button = (AbstractButton) e.getSource();
 
-        if (ready) {
+        if (GameField.getReady()) {
             if (button.equals(up)) {
-                if (player1) {
+                if (GameField.getPlayer1()) {
                     gameField.decP1();
                 }
                 else {
                     gameField.decP2();
                 }
             } else {
-                if (player1) {
+                if (GameField.getPlayer1()) {
                     gameField.incP1();
                 }
                 else {

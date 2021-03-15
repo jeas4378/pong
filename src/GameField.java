@@ -10,11 +10,15 @@ public class GameField extends JPanel {
     private HashMap<Point,Color> p1 = new HashMap<Point,Color>();
     private HashMap<Point,Color> p2 = new HashMap<Point,Color>();
     private HashMap<Point,Color> ball = new HashMap<Point,Color>();
-    private int p1_position = 0;
-    private int p2_position = 0;
-    private int moveSpeed = 10;
-    private int ball_x = 0;
-    private int ball_y = 0;
+
+    private static int p1_position = 0;
+    private static int p2_position = 0;
+    private static int moveSpeed = 10;
+    private static int ball_x = 0;
+    private static int ball_y = 0;
+
+    private static Boolean player1 = false;
+    private static Boolean ready = false;
 
     public GameField() {
 
@@ -126,36 +130,86 @@ public class GameField extends JPanel {
         }
     }
 
+    public static synchronized void recieveMessage(String s) {
+        String[] data = s.split(",");
+        if (data[0].equals("p1")) {
+            setP1_position(Integer.parseInt(data[1]));
+        }
+        else if (data[0].equals("p2")) {
+            setP2_position(Integer.parseInt(data[1]));
+        }
+        else if ((data[0].equals("true")) || (data[0].equals("false"))) {
+            setPlayer1(Boolean.parseBoolean(data[0]));
+            setReady(true);
+        }
+        else if (data[0].equals("b")){
+            setBall_x(Integer.parseInt(data[1]));
+            setBall_y(Integer.parseInt(data[2]));
+        }
+    }
+
+    public static void setP1_position(int pos){
+        p1_position = pos;
+    }
+
+    public static void setP2_position(int pos) {
+        p2_position = pos;
+    }
+
     public void incP1() {
         if ((getP1_position() < 180)) {
-            this.p1_position += moveSpeed;
+            p1_position += moveSpeed;
         }
     }
 
     public void incP2() {
         if ((getP2_position() < 180)) {
-            this.p2_position += moveSpeed;
+            p2_position += moveSpeed;
         }
     }
 
     public void decP1() {
         if (getP1_position() > -200) {
-            this.p1_position -= moveSpeed;
+            p1_position -= moveSpeed;
         }
     }
 
     public void decP2() {
         if (getP2_position() > -200) {
-            this.p2_position -= moveSpeed;
+            p2_position -= moveSpeed;
         }
     }
 
     public int getP1_position() {
-        return this.p1_position;
+        return p1_position;
+    }
+
+    public static void setPlayer1(Boolean bool) {
+        player1 = bool;
+    }
+
+    public static void setReady(Boolean bool) {
+        ready = bool;
+    }
+
+    public static Boolean getPlayer1() {
+        return player1;
+    }
+
+    public static Boolean getReady() {
+        return ready;
     }
 
     public int getP2_position(){
-        return this.p2_position;
+        return p2_position;
+    }
+
+    public static void setBall_x(int pos) {
+        ball_x = pos;
+    }
+
+    public static void setBall_y(int pos) {
+        ball_y = pos;
     }
 
     public int getBall_x() {
@@ -164,5 +218,16 @@ public class GameField extends JPanel {
 
     public int getBall_y() {
         return ball_y;
+    }
+
+    public String sendMessage() {
+        String s = null;
+        if (getPlayer1()) {
+            s = "p1," + Integer.toString(getP1_position());
+        }
+        else {
+            s = "p2," + Integer.toString(getP2_position());
+        }
+        return s;
     }
 }
