@@ -1,0 +1,5 @@
+
+#För att skicka meddelanden mellan olika trådar
+https://www.journaldev.com/1034/java-blockingqueue-example
+
+https://www.journaldev.com/1079/multithreading-in-java

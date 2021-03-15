@@ -1,0 +1,4 @@
+Klienterna innehåller spelplanen dvs själva ramen. Respektive paddles finns också. Klienten lyssnar hela tiden efter meddelanden från servern. När ett meddelande tas emot skickas det med blockingque till grafik-delen som uppdaterar spelplanen.
+
+
+Servern visar inget grafiskt men den låter två klienter ansluta. När dessa har anslutit sätts spelet igång. Servern lyssnar efter information om vart paddles är och skickar denna information till spelet. 
