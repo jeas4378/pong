@@ -39,13 +39,15 @@ public class GameField extends JPanel {
                     lines.put(p,Color.WHITE);
                 }
 
+                //Skapar spelare 1s paddel.
                 if ((x > 29) && (x < 40) && (y > height_min) && (y < height_max)) {
                     p1.put(p, Color.BLACK);
                 }
+                //Skapar spelare 2s paddel.
                 if ((x > 764) && (x < 776) && (y > height_min) && (y < height_max)) {
                     p2.put(p, Color.BLACK);
                 }
-
+                //Skapar bollen.
                 if ((x > 390) && (x < 410) && (y > 230) && (y < 250)) {
                     ball.put(p, Color.GRAY);
                 }
@@ -78,8 +80,8 @@ public class GameField extends JPanel {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        //Renderar spelplanen.
         Iterator i = lines.entrySet().iterator();
-
         while(i.hasNext()) {
 
             Map.Entry pair = (Map.Entry) i.next();
@@ -90,8 +92,8 @@ public class GameField extends JPanel {
             g.fillRect(p.x, p.y, 1, 1);
         }
 
+        //Renderar spelare 1s paddel
         Iterator player1 = p1.entrySet().iterator();
-
         while(player1.hasNext()) {
             Map.Entry pair_p1 = (Map.Entry) player1.next();
             Point p1_pos = (Point)pair_p1.getKey();
@@ -101,8 +103,8 @@ public class GameField extends JPanel {
             g.fillRect(p1_pos.x,p1_pos.y + getP1_position(),1,1);
         }
 
+        //Renderar spelare 2s paddel
         Iterator player2 = p2.entrySet().iterator();
-
         while(player2.hasNext()) {
             Map.Entry pair_p2 = (Map.Entry) player2.next();
             Point p2_pos = (Point)pair_p2.getKey();
@@ -112,8 +114,8 @@ public class GameField extends JPanel {
             g.fillRect(p2_pos.x,p2_pos.y  + getP2_position(),1,1);
         }
 
+        //Renderar bollen.
         Iterator ball_iterator = ball.entrySet().iterator();
-
         while(ball_iterator.hasNext()) {
             Map.Entry pair_ball = (Map.Entry) ball_iterator.next();
             Point ball_pos = (Point)pair_ball.getKey();
