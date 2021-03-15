@@ -133,7 +133,7 @@ public class GameField extends JPanel {
         }
     }
 
-    public static synchronized void recieveMessage(String s) {
+    public synchronized void recieveMessage(String s) {
         String[] data = s.split(",");
         if (data[0].equals("p1")) {
             setP1_position(Integer.parseInt(data[1]));
@@ -149,6 +149,7 @@ public class GameField extends JPanel {
             setBall_x(Integer.parseInt(data[1]));
             setBall_y(Integer.parseInt(data[2]));
         }
+        repaint();
     }
 
     public static void setP1_position(int pos){
@@ -232,13 +233,5 @@ public class GameField extends JPanel {
             s = "p2," + Integer.toString(getP2_position());
         }
         return s;
-    }
-
-    public void setControls(Controls controls) {
-        this.controls = controls;
-    }
-
-    public void callRepaint() {
-        this.controls.callRepaint();
     }
 }

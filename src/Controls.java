@@ -49,8 +49,4 @@ public class Controls extends JPanel implements ActionListener {
     public void connectGameField(GameField gameField) {
         this.gameField = gameField;
     }
-
-    public void callRepaint() {
-        this.gameField.repaint();
-    }
 }

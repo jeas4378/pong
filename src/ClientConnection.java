@@ -6,8 +6,10 @@ public class ClientConnection implements Runnable{
     private Socket socket;
     private BufferedReader reader;
     private PrintWriter writer;
+    private GameField gamefield;
 
-    public ClientConnection(Socket socket){
+    public ClientConnection(Socket socket, GameField gamefield){
+        this.gamefield = gamefield;
         this.socket = socket;
 
         try {
@@ -29,7 +31,7 @@ public class ClientConnection implements Runnable{
 
         try {
             while ((message = reader.readLine()) != null) {
-                GameField.recieveMessage(message);
+                gamefield.recieveMessage(message);
             }
         }
         catch (IOException io) {
