@@ -105,19 +105,27 @@ public class GameField extends JPanel {
     }
 
     public void incP1() {
-        this.p1_position += moveSpeed;
+        if ((getP1_position() < 180)) {
+            this.p1_position += moveSpeed;
+        }
     }
 
     public void incP2() {
-        this.p2_position += moveSpeed;
+        if ((getP2_position() < 180)) {
+            this.p2_position += moveSpeed;
+        }
     }
 
     public void decP1() {
-        this.p1_position -= moveSpeed;
+        if (getP1_position() > -200) {
+            this.p1_position -= moveSpeed;
+        }
     }
 
     public void decP2() {
-        this.p2_position -= moveSpeed;
+        if (getP2_position() > -200) {
+            this.p2_position -= moveSpeed;
+        }
     }
 
     public int getP1_position() {
