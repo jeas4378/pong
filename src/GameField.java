@@ -21,7 +21,7 @@ public class GameField extends JPanel {
     private static Boolean player1 = false;
     private static Boolean ready = false;
 
-    private Controls controls;
+    private ClientConnection clientConnection;
 
     public GameField() {
 
@@ -134,6 +134,7 @@ public class GameField extends JPanel {
     }
 
     public synchronized void recieveMessage(String s) {
+        System.out.println("Klient tog emot meddelande");
         String[] data = s.split(",");
         if (data[0].equals("p1")) {
             setP1_position(Integer.parseInt(data[1]));
@@ -164,24 +165,28 @@ public class GameField extends JPanel {
         if ((getP1_position() < 180)) {
             p1_position += moveSpeed;
         }
+        clientConnection.send(sendMessage());
     }
 
     public void incP2() {
         if ((getP2_position() < 180)) {
             p2_position += moveSpeed;
         }
+        clientConnection.send(sendMessage());
     }
 
     public void decP1() {
         if (getP1_position() > -200) {
             p1_position -= moveSpeed;
         }
+        clientConnection.send(sendMessage());
     }
 
     public void decP2() {
         if (getP2_position() > -200) {
             p2_position -= moveSpeed;
         }
+        clientConnection.send(sendMessage());
     }
 
     public int getP1_position() {
@@ -222,6 +227,10 @@ public class GameField extends JPanel {
 
     public int getBall_y() {
         return ball_y;
+    }
+
+    public void setClientConnection(ClientConnection clientConnection){
+        this.clientConnection = clientConnection;
     }
 
     public String sendMessage() {

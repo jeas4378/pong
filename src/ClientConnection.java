@@ -5,7 +5,7 @@ public class ClientConnection implements Runnable{
 
     private Socket socket;
     private BufferedReader reader;
-    private PrintWriter writer;
+    private static PrintWriter writer;
     private GameField gamefield;
 
     public ClientConnection(Socket socket, GameField gamefield){
@@ -40,7 +40,8 @@ public class ClientConnection implements Runnable{
 
     }
 
-    public void send(String s){
+    public static synchronized void send(String s){
+        System.out.println("Klient sänder meddelande");
         writer.println(s);
     }
 }

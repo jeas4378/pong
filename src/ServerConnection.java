@@ -6,10 +6,12 @@ public class ServerConnection implements Runnable {
     private Socket socket;
     private BufferedReader reader;
     private PrintWriter writer;
+    private Server server;
 
 
-    public ServerConnection(Socket socket) {
+    public ServerConnection(Socket socket, Server server) {
         this.socket = socket;
+        this.server = server;
 
         try {
             this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream(),
@@ -30,7 +32,7 @@ public class ServerConnection implements Runnable {
 
         try {
             while ((message = reader.readLine()) != null) {
-                Server.getMessage(message);
+                server.getMessage(message);
             }
         }
         catch(IOException io){
@@ -40,7 +42,8 @@ public class ServerConnection implements Runnable {
 
     }
 
-    public void send(String s) {
+    public synchronized void send(String s) {
+        System.out.println("Sänder meddelande");
         this.writer.println(s);
     }
 }

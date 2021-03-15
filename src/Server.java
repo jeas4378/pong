@@ -11,26 +11,31 @@ public class Server {
 
     private static int ball_x_vector = 0;
     private static int ball_y_vector = 0;
-    private static ServerConnection p1;
-    private static ServerConnection p2;
+    private ServerConnection p1;
+    private ServerConnection p2;
 
     private static final int DEFAULT_PORT = 2000;
 
     public static void main(String[] args) {
+
+        new Server();
+    }
+
+    public Server() {
 
         try (ServerSocket server = new ServerSocket(DEFAULT_PORT)) {
 
             System.out.println("Väntar på anslutning");
 
             Socket connection1 = server.accept();
-            ServerConnection p1 = new ServerConnection(connection1);
+            ServerConnection p1 = new ServerConnection(connection1, this);
             Thread t1 = new Thread(p1);
             t1.start();
 
             System.out.println("Spelare 1 ansluten");
 
             Socket connection2 = server.accept();
-            ServerConnection p2 = new ServerConnection(connection2);
+            ServerConnection p2 = new ServerConnection(connection2, this);
             Thread t2 = new Thread(p2);
             t2.start();
 
@@ -56,15 +61,19 @@ public class Server {
     }
 
 
-    public static synchronized void getMessage(String s) {
+    public synchronized void getMessage(String s) {
+        System.out.println("tog emot meddelande");
+        System.out.println(s);
         String[] data = s.split(",");
         if (data[0].equals("p1")){
             setP1_position(Integer.parseInt(data[1]));
-            p2.send(sendP1());
+            this.p2.send(sendP1());
         }
         else {
+            System.out.println("Första värdet är okej");
             setP2_position(Integer.parseInt(data[1]));
-            p1.send(sendP2());
+            System.out.println("Har uppdaterat värdet" + Integer.toString(getP2_position()));
+            this.p1.send(sendP2());
         }
 
     }
