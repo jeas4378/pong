@@ -1,6 +1,10 @@
 import java.io.*;
 import java.net.Socket;
 
+/**
+ * En klass som håller i nätverksanslutningarna till servern.
+ */
+
 public class ServerConnection implements Runnable {
 
     private Socket socket;
@@ -13,6 +17,7 @@ public class ServerConnection implements Runnable {
         this.socket = socket;
         this.server = server;
 
+        //Skapar en reader och en writer för att kunna läsa från och skriva till klienterna.
         try {
             this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream(),
                     "ISO_8859_1"));
@@ -30,6 +35,7 @@ public class ServerConnection implements Runnable {
 
         String message = null;
 
+        //Väntar kontinuerligt på meddelanden från klienterna.
         try {
             while ((message = reader.readLine()) != null) {
                 server.getMessage(message);
@@ -42,6 +48,7 @@ public class ServerConnection implements Runnable {
 
     }
 
+    //Sänder meddelande till klienten.
     public synchronized void send(String s) {
         System.out.println("Sänder meddelande");
         this.writer.println(s);

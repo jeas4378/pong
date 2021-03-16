@@ -7,14 +7,21 @@ import java.util.Map;
 
 public class GameField extends JPanel {
 
+    //HashMaps som innehåller grafisk representation av spelplanen, spelare 1 respektive spelare 2 paddel och
+    //bollen.
     private HashMap<Point,Color> lines = new HashMap<Point,Color>();
     private HashMap<Point,Color> p1 = new HashMap<Point,Color>();
     private HashMap<Point,Color> p2 = new HashMap<Point,Color>();
     private HashMap<Point,Color> ball = new HashMap<Point,Color>();
 
+    //Spelarnas paddelpositioner. Default-värde 0 placerar paddles ungefär i mitten av spelplanen.
     private static int p1_position = 0;
     private static int p2_position = 0;
+
+    //Hur mycket en paddel ska flytta på sig vid varje increment.
     private static int moveSpeed = 10;
+
+    //Bollen behöver flytta sig i både x- och y-led och har därför två värden.
     private static int ball_x = 0;
     private static int ball_y = 0;
 
@@ -25,10 +32,14 @@ public class GameField extends JPanel {
 
     public GameField() {
 
+        //Konstruktorn för GameField skapar alla grafiska representationer.
         createGraphics();
 
     }
 
+    /**
+     *En metod som skapar alla grafiska objekt som spelplan, spelare 1 och 2s paddel samt bollen.
+     */
     private void createGraphics() {
 
         Boolean block = false;
@@ -36,6 +47,7 @@ public class GameField extends JPanel {
         int height_min = 220;
         int height_max = 280;
 
+        //Traverserar över varenda pixel i hela spelplanen.
         for (int y = 0; y < 501; y++) {
             for (int x = 0; x < 1001; x++) {
                 Point p = new Point(x,y);
@@ -58,10 +70,11 @@ public class GameField extends JPanel {
                 if ((x > 390) && (x < 410) && (y > 230) && (y < 250)) {
                     ball.put(p, Color.GRAY);
                 }
-
+                //Skapar toppen och botten linjen.
                 if ((y < 20) || (y > 460)) {
                     block = true;
                 }
+                //Skapar den vertikala mittlinjen.
                 else if ((x >= 390) && (x <= 410)) {
                     if (middle) {
                         block = true;
@@ -74,6 +87,8 @@ public class GameField extends JPanel {
                     block = false;
                 }
             }
+            //För att få jämna storleken på mittblocken så ändrar vi värdet på variabeln 'middle'
+            //var 20e pixel fram och tillbaka mellan true och false.
             if ((y-10) % 20 == 0) {
                 middle = middle ? false : true;
             }
@@ -84,9 +99,14 @@ public class GameField extends JPanel {
 
     }
 
+    /**
+     * Metoden som faktiskt ritar den grafiska representationen.
+     * @param g Graphics-objekt.
+     */
     public synchronized void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        //Målar över hela spelplanen till vitt.
         this.setBackground(Color.WHITE);
 
         //Renderar spelplanen.
@@ -109,6 +129,7 @@ public class GameField extends JPanel {
             Color p1_col = (Color)pair_p1.getValue();
 
             g.setColor(p1_col);
+            //Paddles position manipuleras genom att lägga till 'p1_position' till y-värdet.
             g.fillRect(p1_pos.x,p1_pos.y + getP1_position(),1,1);
         }
 
@@ -120,6 +141,7 @@ public class GameField extends JPanel {
             Color p2_col = (Color)pair_p2.getValue();
 
             g.setColor(p2_col);
+            //Paddles position manipuleras genom att lägga till 'p1_position' till y-värdet.
             g.fillRect(p2_pos.x,p2_pos.y  + getP2_position(),1,1);
         }
 
@@ -131,10 +153,19 @@ public class GameField extends JPanel {
             Color ball_col = (Color)pair_ball.getValue();
 
             g.setColor(ball_col);
+            //Bollens position manipuleras genom att lägga till 'ball_x' och 'ball_y' till respektive
+            //x- och y-värdet.
             g.fillRect(ball_pos.x + getBall_x(),ball_pos.y + getBall_y() ,1,1);
         }
     }
 
+    /**
+     * Tolkar meddelanden som tas emot från spelservern. Då servern är konstruerad att endast skicka meddelanden
+     * på formen 'true'/'false', '[spelare],[pos]' eller 'b,x-pos,y-pos' har jag endast skapat fall där dessa fångas upp.
+     * Skulle någon skicka något annat så skulle inget hända. Skulle någon som vill förstöra skicka en tom-sträng
+     * skulle troligen det bli ett indexOutOfBound-error då den skulle bli problem med 'data[0]'.
+     * @param s
+     */
     public synchronized void recieveMessage(String s) {
         System.out.println("Klient tog emot meddelande");
         String[] data = s.split(",");
@@ -159,10 +190,12 @@ public class GameField extends JPanel {
         p1_position = pos;
     }
 
-    public static void setP2_position(int pos) {
-        p2_position = pos;
-    }
+    public static void setP2_position(int pos) { p2_position = pos; }
 
+    /**
+     * Flyttar ned spelare 1 paddle. Så fort en paddle har ändrats skickas en uppdatering spelare 1s paddel
+     * till servern.
+     */
     public void incP1() {
         if ((getP1_position() < 180)) {
             p1_position += moveSpeed;
@@ -170,6 +203,10 @@ public class GameField extends JPanel {
         clientConnection.send(sendMessage());
     }
 
+    /**
+     * Flyttar ned spelare 2 paddle. Så fort en paddle har ändrats skickas en uppdatering spelare 2s paddel
+     * till servern.
+     */
     public void incP2() {
         if ((getP2_position() < 180)) {
             p2_position += moveSpeed;
@@ -177,6 +214,9 @@ public class GameField extends JPanel {
         clientConnection.send(sendMessage());
     }
 
+    /**
+     * Flyttar spelare 1 paddel uppåt. Som ovan uppdateras servern.
+     */
     public void decP1() {
         if (getP1_position() > -200) {
             p1_position -= moveSpeed;
@@ -184,6 +224,9 @@ public class GameField extends JPanel {
         clientConnection.send(sendMessage());
     }
 
+    /**
+     * Flyttar spelare 2 paddel uppåt. Som ovan uppdateras servern.
+     */
     public void decP2() {
         if (getP2_position() > -200) {
             p2_position -= moveSpeed;
@@ -231,10 +274,21 @@ public class GameField extends JPanel {
         return ball_y;
     }
 
+    /**
+     * En metod som inte används i nuläget.
+     * @param clientConnection
+     */
     public void setClientConnection(ClientConnection clientConnection){
         this.clientConnection = clientConnection;
     }
 
+    /**
+     * Formaterar ett meddelande som ska skickas till servern. Då klienten endast skickar information
+     * om var sin spelares paddle är kan vi standardisera meddelande på följande vis. Då en spelare inte
+     * kan flytta på sin paddle förrän spelet är igång så betyder det att klienten vet om den är spelare 1
+     * eller inte. Beroende på vad 'Player1' är satt till formuleras två olika meddelanden.
+     * @return En String med information som ska skickas till servern.
+     */
     public String sendMessage() {
         String s = null;
         if (getPlayer1()) {
