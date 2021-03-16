@@ -43,7 +43,7 @@ public class GameField extends JPanel {
                     lines.put(p,Color.BLACK);
                 }
                 else {
-                    lines.put(p,Color.WHITE);
+                    //lines.put(p,Color.WHITE);
                 }
 
                 //Skapar spelare 1s paddel.
@@ -86,6 +86,8 @@ public class GameField extends JPanel {
 
     public synchronized void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        this.setBackground(Color.WHITE);
 
         //Renderar spelplanen.
         Iterator i = lines.entrySet().iterator();
