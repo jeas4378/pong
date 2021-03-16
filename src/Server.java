@@ -28,14 +28,14 @@ public class Server {
             System.out.println("Väntar på anslutning");
 
             Socket connection1 = server.accept();
-            ServerConnection p1 = new ServerConnection(connection1, this);
+            this.p1 = new ServerConnection(connection1, this);
             Thread t1 = new Thread(p1);
             t1.start();
 
             System.out.println("Spelare 1 ansluten");
 
             Socket connection2 = server.accept();
-            ServerConnection p2 = new ServerConnection(connection2, this);
+            this.p2 = new ServerConnection(connection2, this);
             Thread t2 = new Thread(p2);
             t2.start();
 
@@ -67,13 +67,13 @@ public class Server {
         String[] data = s.split(",");
         if (data[0].equals("p1")){
             setP1_position(Integer.parseInt(data[1]));
-            p2.send(this.sendP1());
+            this.p2.send(this.sendP1());
         }
         else {
             System.out.println("Första värdet är okej");
             setP2_position(Integer.parseInt(data[1]));
             System.out.println("Har uppdaterat värdet" + Integer.toString(getP2_position()));
-            p1.send("p2,"+Integer.toString(getP2_position()));
+            this.p1.send("p2,"+Integer.toString(getP2_position()));
         }
 
     }
