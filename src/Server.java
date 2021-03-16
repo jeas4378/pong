@@ -76,8 +76,9 @@ public class Server {
     /**
      * En metod som tolkar meddelanden från klienterna. Så fort servern har fått en uppdaterad information
      * om var en paddle befinner sig, säg spelare 1s paddel, så skickas denna information till spelare 2 så att
-     * dennes klient uppdaterar spelare 1s paddelposition.
-     * @param s
+     * dennes klient uppdaterar spelare 1s paddelposition. Lider av samma svaghet som motsvarande metod
+     * i GameField.
+     * @param s En String innehållandes ett meddelande att avkoda.
      */
     public synchronized void getMessage(String s) {
         System.out.println("tog emot meddelande");
